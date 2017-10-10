@@ -18,7 +18,7 @@ Seamless integration between WooCommerce and the Software License Manager Plugin
 * Licensing is optional and can be activated/deactivated individually
 * Send generated license keys to your customers within your existing email notifications
 
-<strong>Please Note:</strong> This is a fork of the [Woocommerce Software License Manager](https://wordpress.org/plugins/wc-software-license-manager/) plugin from the WordPress.org Plugin Directory, which hasn't been updated since July 2016, and no longer worked with the latest version of WordPress and WooCommerce.
+**Please Note:** This is a fork of the [Woocommerce Software License Manager](https://wordpress.org/plugins/wc-software-license-manager/) plugin from the WordPress.org Plugin Directory, which hasn't been updated since July 2016, and no longer worked with the latest version of WordPress and WooCommerce.
 
 Significant code updates and tidying have been performed and this version now works with WordPress 4.8.2 and WooCommerce 3.1.2.
 
@@ -152,11 +152,11 @@ class youlice_class{
 
 }
 `
-> <strong>Please note</strong><br>
+> **Please note**
 > The license validation part for your distributed plugins and themes is not part of this plugin. Therefore please take a look into the Software License Manager documentation.
-
-> <strong>incompatibility issue with iThemes Security</strong><br>
-> If you have installed "iThemes Security", uncheck <strong>Long URL Strings</strong> where Software License Manager is installed
+>  
+> **Known incompatibility issue with iThemes Security**
+> If you have installed "iThemes Security", uncheck **Long URL Strings** where the Software License Manager plugin is installed
 
 = Credits =
 
