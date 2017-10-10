@@ -1,4 +1,4 @@
-=== Woocommerce Software License Manager ===
+=== WooCommerce Software License Manager ===
 Contributors: goback2, ahortin
 Tags: wc, wc license, wc software license, software license, software license manager, woocommerce, wc licensing
 Requires at least: 3.5.1
@@ -154,7 +154,7 @@ class youlice_class{
 `
 > **Please note**
 > The license validation part for your distributed plugins and themes is not part of this plugin. Therefore please take a look into the Software License Manager documentation.
->  
+>
 > **Known incompatibility issue with iThemes Security**
 > If you have installed "iThemes Security", uncheck **Long URL Strings** where the Software License Manager plugin is installed
 
