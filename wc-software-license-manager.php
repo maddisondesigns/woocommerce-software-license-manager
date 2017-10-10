@@ -2,8 +2,8 @@
 /**
  * Plugin Name:     WC Software License Manager
  * Plugin URI:      http://wp-master.ir
- * Description:     Seamless integration between Woocommerce and Software License Manager(adopted from EDD Software License Manager -thanks to flowdee <coder@flowdee.de>)
- * Version:         1.0.7
+ * Description:     Seamless integration between Woocommerce and Software License Manager
+ * Version:         2.0.0
  * Author:          Omid Shamlu
  * Author URI:      http://wp-master.ir
  * Text Domain:     wc-slm
@@ -22,37 +22,28 @@
  *
  * TODO:
  * https://wordpress.org/support/topic/modifying-for-variable-products
- * Add option to recreate manauall linense in order edit page
+ * Add option to recreate manual linense in order edit page
  * Add license columns in order table lists
- * log to Actions (Denug purpose)
  */
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
+if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if (!class_exists('WC_SLM')) {
+if ( !class_exists( 'WC_SLM' ) ) {
 
-	/**
-	 * Main WC_SLM class
-	 *
-	 * @since       1.0.0
-	 */
 	class WC_SLM {
 
-		/**
-		 * @var         WC_SLM $instance The one true WC_SLM
-		 * @since       1.0.0
-		 */
+		// WC_SLM $instance The one true WC_SLM
 		private static $instance;
 
 		/**
 		 * Get active instance
 		 *
-		 * @access      public
-		 * @since       1.0.0
-		 * @return      object self::$instance The one true WC_SLM
+		 * @access public
+		 * @since 1.0.0
+		 * @return object self::$instance The one true WC_SLM
 		 */
 		public static function instance() {
 			if (!self::$instance) {
@@ -68,46 +59,49 @@ if (!class_exists('WC_SLM')) {
 		/**
 		 * Setup plugin constants
 		 *
-		 * @access      private
-		 * @since       1.0.0
-		 * @return      void
+		 * @access private
+		 * @since 1.0.0
+		 * @return void
 		 */
 		private function setup_constants() {
 
 			// Plugin version
-			define('WC_SLM_VER', '1.0.0');
+			define( 'WC_SLM_VER', '2.0.0' );
 
 			// Plugin path
-			define('WC_SLM_DIR', plugin_dir_path(__FILE__));
+			define( 'WC_SLM_DIR', plugin_dir_path(__FILE__) );
 
 			// Plugin URL
-			define('WC_SLM_URL', plugin_dir_url(__FILE__));
+			define( 'WC_SLM_URL', plugin_dir_url(__FILE__) );
 
 			// SLM Credentials
-			$api_url = str_replace(array('http://'), array('https://'), rtrim(get_option('wc_slm_api_url'), '/'));
+			$api_url = str_replace( array( 'http://' ), array( 'https://' ), rtrim( get_option( 'wc_slm_api_url' ), '/' ) );
 
-			define('WC_SLM_API_URL', $api_url);
-			define('WC_SLM_API_SECRET', get_option('wc_slm_api_secret'));
+			define( 'WC_SLM_API_URL', $api_url );
+			define( 'WC_SLM_API_SECRET', get_option( 'wc_slm_api_secret' ) );
+			if ( 'yes' === get_option( 'wc_slm_debug_logging', false ) ) {
+				define( 'WC_SLM_DEBUG_LOGGING', true );
+			}
 		}
 
 		/**
 		 * Include necessary files
 		 *
-		 * @access      private
-		 * @since       1.0.0
-		 * @return      void
+		 * @access private
+		 * @since 1.0.0
+		 * @return void
 		 */
 		private function includes() {
 
 			// Get out if WC is not active
-			if (!function_exists('WC')) {
+			if ( !function_exists( 'WC' ) ) {
 				return;
 			}
 
 			// Include files and scripts
 			require_once WC_SLM_DIR . 'includes/helper.php';
 
-			if (is_admin()) {
+			if ( is_admin() ) {
 				require_once WC_SLM_DIR . 'includes/meta-boxes.php';
 				require_once WC_SLM_DIR . 'includes/settings.php';
 			}
@@ -119,36 +113,33 @@ if (!class_exists('WC_SLM')) {
 		/**
 		 * Internationalization
 		 *
-		 * @access      public
-		 * @since       1.0.0
-		 * @return      void
+		 * @access public
+		 * @since 1.0.0
+		 * @return void
 		 */
 		public function load_textdomain() {
-
 			// Load the default language files
-			load_plugin_textdomain('wc-slm', false, 'wc-software-license-manager/languages');
-			__('Seamless integration between Woocommerce and Software License Manager(adopted from EDD Software License Manager -thanks to flowdee <coder@flowdee.de>)', 'wc-slm');
-			__('WC Software License Manager', 'wc-slm');
+			load_plugin_textdomain( 'wc-slm', false, 'wc-software-license-manager/languages' );
 		}
 
-		/*
-			         * Activation function fires when the plugin is activated.
-			         *
-			         * @since  1.0.0
-			         * @access public
-			         * @return void
-		*/
+		/**
+       * Activation function fires when the plugin is activated.
+       *
+       * @since 1.0.0
+       * @access public
+       * @return void
+		 */
 		public static function activation() {
 			// nothing
 		}
 
-		/*
-			         * Uninstall function fires when the plugin is being uninstalled.
-			         *
-			         * @since  1.0.0
-			         * @access public
-			         * @return void
-		*/
+		/**
+       * Uninstall function fires when the plugin is being uninstalled.
+       *
+       * @since 1.0.0
+       * @access public
+       * @return void
+		 */
 		public static function uninstall() {
 			// nothing
 		}
@@ -158,11 +149,10 @@ if (!class_exists('WC_SLM')) {
 	 * The main function responsible for returning the one true WC_SLM
 	 * instance to functions everywhere
 	 *
-	 * @since       1.0.0
-	 * @return      \WC_SLM The one true WC_SLM
+	 * @since 1.0.0
+	 * @return \WC_SLM The one true WC_SLM
 	 */
 	function WC_SLM_load() {
-
 		return WC_SLM::instance();
 	}
 
@@ -171,9 +161,9 @@ if (!class_exists('WC_SLM')) {
 	 * register the call from within the class hence, needs to be called outside and the
 	 * function also needs to be static.
 	 */
-	register_activation_hook(__FILE__, array('WC_SLM', 'activation'));
-	register_uninstall_hook(__FILE__, array('WC_SLM', 'uninstall'));
+	register_activation_hook( __FILE__, array( 'WC_SLM', 'activation' ) );
+	register_uninstall_hook( __FILE__, array( 'WC_SLM', 'uninstall' ) );
 
-	add_action('plugins_loaded', 'WC_SLM_load');
+	add_action( 'plugins_loaded', 'WC_SLM_load' );
 
-} // End if class_exists check
+}

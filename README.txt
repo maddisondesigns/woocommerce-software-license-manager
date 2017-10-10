@@ -1,16 +1,16 @@
 === Woocommerce Software License Manager ===
-Contributors: goback2
+Contributors: goback2, ahortin
 Tags: wc, wc license, wc software license, software license, software license manager, woocommerce, wc licensing
 Requires at least: 3.5.1
-Tested up to: 4.2.4
-Stable tag: trunk
+Tested up to: 4.8.2
+Stable tag: 2.0.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 Seamless integration between Woocommerce and Software License Manager.
 
 == Description ==
-Seamless integration between Woocommerce and Software License Manager Plugin.
+Seamless integration between Woocommerce and Software License Manager Plugin. Adopted from EDD Software License Manager, thanks to flowdee (coder@flowdee.de).
 
 = Features =
 
@@ -84,7 +84,7 @@ function sample_license_management_page() {
         <?php
     }
 
-    
+
     echo '</div>';
 }
 
@@ -107,7 +107,7 @@ class youlice_class{
     }
     /**
      * check for current product if licensed
-     * @return boolean 
+     * @return boolean
      */
     public function is_licensed(){
         $lic = get_option($this->wp_option);
@@ -152,7 +152,7 @@ class youlice_class{
 > The license validation part for your distributed plugins and themes is not part of this plugin. Therefore please take a look into the Software License Manager documentation.
 
 > <strong>incompatibility issue with iThemes Security</strong><br>
-> If you have installed "iThemes Security" , so uncheck <strong>Long URL Strings</strong> where Software License Manager is installed
+> If you have installed "iThemes Security", uncheck <strong>Long URL Strings</strong> where Software License Manager is installed
 
 = Credits =
 
@@ -206,32 +206,30 @@ No! The license validation part for your distributed plugins and themes is not p
 3. Output the generated license keys within your emails
 
 == Changelog ==
+
 = Version 1.0.7 (20th July 2016) =
-* Add Expire Date to Email and Phurchase Details(Thanks to Albert van der Ploeg)
-* txn_id change from $product_id to $order_id
+- Add Expire Date to Email and Purchase Details (Thanks to Albert Van Der Ploeg)
+- txn_id change from $product_id to $order_id
 
 = Version 1.0.6 (8th November 2015) =
-* small fix
+- small fix
 
 = Version 1.0.5 (7th November 2015) =
-* `has_downloadable_item` and `$product->has_file()` removed from code,so downloadable tick is enough  for working
+- `has_downloadable_item` and `$product->has_file()` removed from code, so downloadable tick is enough for working
 
 = Version 1.0.4 (1th November 2015) =
-* small fix
-* spanish translate added
-
+- small fix
+- spanish translate added
 
 = Version 1.0.3 (6th October 2015) =
-* license details get from billing form now
-* license renewal can be set in product page
-* license details added to user account page
-
+- license details get from billing form now
+- license renewal can be set in product page
+- license details added to user account page
 
 = Version 1.0.1 (5th October 2015) =
-* sample code was added
-* small fix
+- sample code was added
+- small fix
 
 
-
-== Upgrade Notice == 
-* nothing yet
+== Upgrade Notice ==
+- nothing yet
