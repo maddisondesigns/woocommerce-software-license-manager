@@ -7,16 +7,20 @@ Stable tag: 2.0.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Seamless integration between Woocommerce and Software License Manager.
+Seamless integration between WooCommerce and the [Software License Manager](https://wordpress.org/plugins/software-license-manager/) plugin.
 
 == Description ==
-Seamless integration between Woocommerce and Software License Manager Plugin. Adopted from EDD Software License Manager, thanks to flowdee (coder@flowdee.de).
+Seamless integration between WooCommerce and the Software License Manager Plugin. Adopted from EDD Software License Manager, thanks to flowdee (coder@flowdee.de).
 
 = Features =
 
 * Automatically creates license keys for each sale with WC
 * Licensing is optional and can be activated/deactivated individually
 * Send generated license keys to your customers within your existing email notifications
+
+<strong>Please Note:</strong> This is a fork of the [Woocommerce Software License Manager](https://wordpress.org/plugins/wc-software-license-manager/) plugin from the WordPress.org Plugin Directory, which hasn't been updated since July 2016, and no longer worked with the latest version of WordPress and WooCommerce.
+
+Significant code updates and tidying have been performed and this version now works with WordPress 4.8.2 and WooCommerce 3.1.2.
 
 
 #### Sample code
@@ -159,6 +163,7 @@ class youlice_class{
 * [Woocommerce](https://wordpress.org/plugins/woocommerce/)
 * [Software License Manager](https://wordpress.org/plugins/software-license-manager/)
 * [EDD Software License Manager](https://wordpress.org/plugins/edd-software-license-manager/)
+* [WP 4.8.2 and WC 3.1.2 Compatibility](https://maddisondesigns.com)
 
 = Translates =
 
@@ -207,28 +212,40 @@ No! The license validation part for your distributed plugins and themes is not p
 
 == Changelog ==
 
-= Version 1.0.7 (20th July 2016) =
+= 2.0.0 =
+- Updated plugin to work with WordPress 4.8.2 and WooCommerce 3.1.2
+- Fixed error produced due to WC Order Properties being accessed directly on My Account Order View page
+- Pass Product Ref to Software License Manager API when generating key
+- Added ability to enable/disable debug logging messages
+- Added logging messages throughout code which are only displayed when logging is enabled
+- Removed code that wasn't being used
+- Removed superfluous comments and added in lots of extra comments where needed
+- Reformatted and tidied code to WordPress Plugin Directory specifications
+- Reworded meta box labels and added input field descriptions on add/edit product page
+- Updated Version to 2.0.0
+
+= 1.0.7 (20th July 2016) =
 - Add Expire Date to Email and Purchase Details (Thanks to Albert Van Der Ploeg)
 - txn_id change from $product_id to $order_id
 
-= Version 1.0.6 (8th November 2015) =
-- small fix
+= 1.0.6 (8th November 2015) =
+- Small fix
 
-= Version 1.0.5 (7th November 2015) =
+= 1.0.5 (7th November 2015) =
 - `has_downloadable_item` and `$product->has_file()` removed from code, so downloadable tick is enough for working
 
-= Version 1.0.4 (1th November 2015) =
-- small fix
-- spanish translate added
+= 1.0.4 (1th November 2015) =
+- Small fix
+- Spanish translate added
 
-= Version 1.0.3 (6th October 2015) =
-- license details get from billing form now
-- license renewal can be set in product page
-- license details added to user account page
+= 1.0.3 (6th October 2015) =
+- License details get from billing form now
+- License renewal can be set in product page
+- License details added to user account page
 
-= Version 1.0.1 (5th October 2015) =
-- sample code was added
-- small fix
+= 1.0.1 (5th October 2015) =
+- Sample code was added
+- Small fix
 
 
 == Upgrade Notice ==
