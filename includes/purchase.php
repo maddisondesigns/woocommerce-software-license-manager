@@ -62,7 +62,6 @@ function wc_slm_create_license_keys( $order_id ) {
 		wc_slm_log_msg( __( 'Checking if licensing is enabled', 'wc-slm' ) );
 		if ( wc_slm_is_licensing_enabled( $product_id ) ) {
 
-			wc_slm_log_msg( __( 'Licensing is enabled', 'wc-slm' ) );
 			wc_slm_log_msg( __( 'Checking if product is Downloadable', 'wc-slm' ) );
 			if ( $product->is_downloadable() ) {
 
@@ -74,13 +73,16 @@ function wc_slm_create_license_keys( $order_id ) {
 					// Calculate Expire date
 					$renewal_period = (int) wc_slm_get_licensing_renewal_period( $product_id );
 					if ( $renewal_period == 0 ) {
+						wc_slm_log_msg( __( 'License Renewal Period for Product ID ', 'wc-slm' ) . $product_id .  __( ' is set to Lifetime', 'wc-slm' ) );
 						$renewal_period = '0000-00-00';
 					} else {
+						wc_slm_log_msg( __( 'License Renewal Period for Product ID ', 'wc-slm' ) . $product_id .  __( ' is set to ', 'wc-slm' ) . $renewal_period . _n( ' year', ' years', $renewal_period, 'wc-slm' ) );
 						$renewal_period = date( 'Y-m-d', strtotime( '+' . $renewal_period . ' years') );
 					}
 
 					// Sites allowed
 					$sites_allowed = wc_slm_get_sites_allowed( $product_id );
+					wc_slm_log_msg( __( 'Product ID ', 'wc-slm' ) . $product_id .  __( ' can be assigned to ', 'wc-slm' ) . $sites_allowed . __( ' sites', 'wc-slm' ) );
 					if ( !$sites_allowed ) {
 						$sites_allowed_error = __( 'License could not be created: Invalid sites allowed number.', 'wc-slm' );
 						$int = wc_insert_payment_note( $order_id, $sites_allowed_error );
@@ -96,6 +98,7 @@ function wc_slm_create_license_keys( $order_id ) {
 					// $item_name = $product->get_formatted_name();
 
 					// Build parameters
+					wc_slm_log_msg( __( 'Building query to send to the Software License Manager', 'wc-slm' ) );
 					$api_params = array();
 					$api_params['slm_action'] = 'slm_create_new';
 					$api_params['secret_key'] = WC_SLM_API_SECRET;
@@ -138,15 +141,15 @@ function wc_slm_create_license_keys( $order_id ) {
 			}
 
 		}
-
+		else {
+			wc_slm_log_msg( __( 'Licensing is not enabled for Product ID ', 'wc-slm' ) . $product_id );
+		}
 	}
 
 	// Payment note
-	wc_slm_log_msg( __( 'Creating Payment Note with License Key information', 'wc-slm' ) );
 	wc_slm_payment_note($order_id, $licenses);
 
 	// Assign licenses
-	wc_slm_log_msg( __( 'Assigning License Key to Order', 'wc-slm' ) );
 	wc_slm_assign_licenses( $order_id, $licenses );
 }
 
@@ -193,8 +196,8 @@ function wc_slm_payment_note( $order_id, $licenses ) {
 		wc_slm_log_msg( __( 'Payment Note created for Order ', 'wc-slm' ) . $order_id );
 
 	} else {
-		wc_slm_log_msg( __( 'Error! License Key(s) could not be created ', 'wc-slm' ) . $order_id );
-		$message = __( 'License Key(s) could not be created.', 'wc-slm' );
+		wc_slm_log_msg( __( 'Error! License Key(s) could not be created or was not enabled on Product ID ', 'wc-slm' ) . $order_id );
+		$message = __( 'License Key(s) could not be created or was not enabled on product.', 'wc-slm' );
 	}
 
 	// Save note
@@ -210,9 +213,12 @@ function wc_slm_payment_note( $order_id, $licenses ) {
  */
 function wc_slm_assign_licenses( $order_id, $licenses ) {
 
-	if (count($licenses) != 0) {
+	if ( count( $licenses ) != 0) {
 		wc_slm_log_msg( __( 'License Key assigned to Order ', 'wc-slm' ) . $order_id );
 		update_post_meta( $order_id, '_wc_slm_payment_licenses', $licenses );
+	}
+	else {
+		wc_slm_log_msg( __( 'License Key does not exist so cannot assign to order', 'wc-slm' ) );
 	}
 }
 
