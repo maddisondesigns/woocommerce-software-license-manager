@@ -11,16 +11,19 @@ if ( !defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Add the License Key details to the users Order Email
+ * Add the License Key details to the users Order email
  */
 function wc_slm_email_content($order, $is_admin_email) {
-	if ( $order->post->post_status == 'wc-completed' ) {
+	if ( get_post_status( $order->get_id() ) === 'wc-completed' ) {
 		$output = '';
 
+		wc_slm_log_msg( __( 'Order Completed. Adding License Key details for Order ID ', 'wc-slm' ) . $order->get_id() . ' to Order email' );
+
 		// Check if licenses were generated
-		$licenses = get_post_meta( $order->post->ID, '_wc_slm_payment_licenses', true );
+		$licenses = get_post_meta( $order->get_id(), '_wc_slm_payment_licenses', true );
 
 		if ( $licenses && count( $licenses ) != 0 ) {
+			wc_slm_log_msg( __( 'License Key(s) found. Generating output for email content', 'wc-slm' ) );
 			$output .= '<h3>' . __( 'Your Licenses', 'wc-slm' ) . ':</h3>';
 			$output .= '<table>';
 			$output .= '<tr><th class="td">' . __( 'Item', 'wc-slm' ) . '</th>';
@@ -45,6 +48,7 @@ function wc_slm_email_content($order, $is_admin_email) {
 				$output .= '</tr>';
 			}
 			$output .= '</table>';
+			wc_slm_log_msg( __( 'Adding License Key details to Order email', 'wc-slm' ) );
 		}
 
 		echo $output;
