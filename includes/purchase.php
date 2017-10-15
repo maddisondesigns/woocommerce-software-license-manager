@@ -318,8 +318,8 @@ function wc_slm_lic_order_meta( $order ) {
 				// If the verification secret key has been set, get the list of registered domains for this License Key
 				if ( defined( 'WC_SLM_API_SECRET_VERFIY' ) ) {
 					$registered_domains = wc_slm_check_license( $license['key'] );
-					$registered_domains = explode( ',', $registered_domains );
-					if( !empty( $registered_domains ) && $registered_domains != false ) {
+					if ( $registered_domains != false ) {
+						$registered_domains = explode( ',', $registered_domains );
 						$output .= '</br>Registered Domains:';
 						foreach ( $registered_domains as $domain ) {
 							$output .= '</br>&nbsp;&nbsp;' . $domain;
@@ -385,7 +385,12 @@ function wc_slm_check_license( $license ) {
 		foreach ( $license_data->registered_domains as $domain ) {
 			$registered_domains[] = $domain->registered_domain;
 		}
-		$return_val = implode( ',', $registered_domains );
+		if ( !empty( $registered_domains ) ) {
+			$return_val = implode( ',', $registered_domains );
+		}
+		else {
+			$return_val = false;
+		}
 	}
 	else {
 		wc_slm_log_msg( __( 'Error! Unable to verify License Key', 'wc-slm' ) );
