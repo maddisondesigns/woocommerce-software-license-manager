@@ -26,7 +26,7 @@ Significant code updates and tidying have been performed and this version now wo
 = Theme & Plugin Integration =
 Please Note: The license validation part for your distributed plugins and themes is not part of this plugin. More on this can be found in the [Software License Manager documentation](https://www.tipsandtricks-hq.com/software-license-manager-plugin-for-wordpress).
 
-To implement License Key validation in your plugin or theme, please check out the sample code in [https://github.com/maddisondesigns/woocommerce-software-license-manager-client-theme](Maddison Designs' Github repo).
+To implement License Key validation in your plugin or theme, please check out the sample code in [Maddison Designs' Github repo](https://github.com/maddisondesigns/woocommerce-software-license-manager-client-theme).
 
 > **Attention**
 > **Known incompatibility issue with iThemes Security**
