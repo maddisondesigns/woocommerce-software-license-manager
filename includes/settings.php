@@ -37,31 +37,38 @@ function wc_slm_settings( $settings, $current_section ) {
 			'id' => 'wcslider',
 		);
 
-		// API URL Option filed
+		// Software License Manager API URL
 		$settings_slm[] = array(
 			'name' => __( 'API URL', 'wc-slm' ),
-			'desc_tip' => '',
+			'desc_tip' => __( 'The URL for the site that has the Software License Manager plugin installed.', 'wc-slm' ),
 			'id' => 'wc_slm_api_url',
 			'type' => 'text',
-			'desc' => __( 'Enter without http://', 'wc-slm' ),
 		);
 
-		// Secret Key
+		// Secret Key for Creation
 		$settings_slm[] = array(
-			'name' => __( 'Secret Key', 'wc-slm' ),
-			'desc_tip' => '',
+			'name' => __( 'Secret Key for Creation', 'wc-slm' ),
+			'desc_tip' => __( 'This secret key will be used to authenticate any license creation request. This key should match the SECRET KEY FOR LICENSE CREATION key that you specified in the Software License Manager plugin settings.', 'wc-slm' ),
 			'id' => 'wc_slm_api_secret',
 			'type' => 'text',
 			'desc' => '',
 		);
 
-		// Secret Key
+		// Secret Key for Verification
+		$settings_slm[] = array(
+			'name' => __( 'Secret Key for Verfication', 'wc-slm' ),
+			'desc_tip' => __( 'This secret key will be used to authenticate any license verfication request. This key should match the SECRET KEY FOR LICENSE VERIFICATION REQUESTS key that you specified in the Software License Manager plugin settings.', 'wc-slm' ),
+			'id' => 'wc_slm_api_secret_verify',
+			'type' => 'text',
+			'desc' => '',
+		);
+
+		// Enable Debug Logging
 		$settings_slm[] = array(
 			'name' => __( 'Enable Debug Logging', 'wc-slm' ),
-			'desc_tip' => '',
 			'id' => 'wc_slm_debug_logging',
 			'type' => 'checkbox',
-			'desc' => __( 'If checked, debug output will be written to slm_log.txt', 'wc-slm' ),
+			'desc' => __( 'If checked, debug messages will be written to slm_log.txt in the root of your site', 'wc-slm' ),
 		);
 
 		$settings_slm[] = array(
