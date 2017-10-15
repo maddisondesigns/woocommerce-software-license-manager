@@ -89,7 +89,7 @@ No! The license validation part for your distributed plugins and themes is not p
 
 = 2.0.0 =
 - Updated plugin to work with WordPress 4.8.2 and WooCommerce 3.2
-- Fixed error produced due to WC Order Properties being accessed directly on My Account Order View page
+- Fixed error from WC Order Properties being accessed directly on My Account Order View page and when generating order email
 - Added functionality to pass Product Ref to Software License Manager API when generating key
 - Added ability to enable/disable debug logging messages
 - Added logging messages throughout code which are only displayed when logging is enabled
