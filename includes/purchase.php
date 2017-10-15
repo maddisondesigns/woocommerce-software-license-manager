@@ -6,7 +6,7 @@
  */
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
+if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
 
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
  */
 function wc_slm_on_complete_purchase( $order_id ) {
 	wc_slm_log_msg( __( 'Start of Software License Key creation', 'wc-slm' ) );
-	if ( WC_SLM_API_URL != '' && WC_SLM_API_SECRET != '') {
+	if ( WC_SLM_API_URL != '' && WC_SLM_API_SECRET != '' ) {
 		wc_slm_log_msg( __( 'API URL and API Secret Supplied. Attempting to create License key', 'wc-slm' ) );
 		wc_slm_create_license_keys( $order_id );
 	}
@@ -34,7 +34,7 @@ add_action( 'woocommerce_order_status_completed', 'wc_slm_on_complete_purchase',
 function wc_slm_create_license_keys( $order_id ) {
 
 	// Get Order details
-	$_order = wc_get_order($order_id);
+	$_order = wc_get_order( $order_id );
 
 	// Get User ID from order
 	$user_id = $_order->get_user_id();
@@ -73,16 +73,16 @@ function wc_slm_create_license_keys( $order_id ) {
 					// Calculate Expire date
 					$renewal_period = (int) wc_slm_get_licensing_renewal_period( $product_id );
 					if ( $renewal_period == 0 ) {
-						wc_slm_log_msg( __( 'License Renewal Period for Product ID ', 'wc-slm' ) . $product_id .  __( ' is set to Lifetime', 'wc-slm' ) );
+						wc_slm_log_msg( __( 'License Renewal Period for Product ID ', 'wc-slm' ) . $product_id . __( ' is set to Lifetime', 'wc-slm' ) );
 						$renewal_period = '0000-00-00';
 					} else {
-						wc_slm_log_msg( __( 'License Renewal Period for Product ID ', 'wc-slm' ) . $product_id .  __( ' is set to ', 'wc-slm' ) . $renewal_period . _n( ' year', ' years', $renewal_period, 'wc-slm' ) );
-						$renewal_period = date( 'Y-m-d', strtotime( '+' . $renewal_period . ' years') );
+						wc_slm_log_msg( __( 'License Renewal Period for Product ID ', 'wc-slm' ) . $product_id . __( ' is set to ', 'wc-slm' ) . $renewal_period . _n( ' year', ' years', $renewal_period, 'wc-slm' ) );
+						$renewal_period = date( 'Y-m-d', strtotime( '+' . $renewal_period . ' years' ) );
 					}
 
 					// Sites allowed
 					$sites_allowed = wc_slm_get_sites_allowed( $product_id );
-					wc_slm_log_msg( __( 'Product ID ', 'wc-slm' ) . $product_id .  __( ' can be assigned to ', 'wc-slm' ) . $sites_allowed . __( ' sites', 'wc-slm' ) );
+					wc_slm_log_msg( __( 'Product ID ', 'wc-slm' ) . $product_id . __( ' can be assigned to ', 'wc-slm' ) . $sites_allowed . __( ' sites', 'wc-slm' ) );
 					if ( !$sites_allowed ) {
 						$sites_allowed_error = __( 'License could not be created: Invalid sites allowed number.', 'wc-slm' );
 						$int = wc_insert_payment_note( $order_id, $sites_allowed_error );
@@ -104,13 +104,13 @@ function wc_slm_create_license_keys( $order_id ) {
 					$api_params['secret_key'] = WC_SLM_API_SECRET;
 					$api_params['first_name'] = ( isset( $payment_meta['user_info']['first_name'] ) ) ? $payment_meta['user_info']['first_name'] : '';
 					$api_params['last_name'] = ( isset( $payment_meta['user_info']['last_name'] ) ) ? $payment_meta['user_info']['last_name'] : '';
-					$api_params['email'] = (isset($payment_meta['user_info']['email'])) ? $payment_meta['user_info']['email'] : '';
+					$api_params['email'] = ( isset( $payment_meta['user_info']['email'] ) ) ? $payment_meta['user_info']['email'] : '';
 					$api_params['company_name'] = $payment_meta['user_info']['company'];
 					$api_params['product_ref'] = $product->get_name();
 					/**
 					 * Set TXN ID to $order_id instead of $product_id
-                * @since 1.0.7
-                * @ref https://wordpress.org/support/topic/qty-1-generates-same-license
+					 * @since 1.0.7
+					 * @ref https://wordpress.org/support/topic/qty-1-generates-same-license
 					 */
 					$api_params['txn_id'] = $order_id;
 					$api_params['max_allowed_domains'] = $sites_allowed;
@@ -118,12 +118,13 @@ function wc_slm_create_license_keys( $order_id ) {
 					$api_params['date_expiry'] = $renewal_period;
 
 					// Send query to the license manager server
-					$url = 'http://' . WC_SLM_API_URL . '?' . http_build_query( $api_params );
-					$url = str_replace( array( 'http://', 'https://' ), '', $url );
-					$url = 'http://' . $url;
+					$url = WC_SLM_API_URL . '?' . http_build_query( $api_params );
 
 					wc_slm_log_msg( __( 'Attempting to create License Key for ', 'wc-slm' ) . $api_params['first_name'] . ' ' . $api_params['last_name'] . ' for Product ' . $api_params['product_ref'] );
-					$response = wp_remote_get( $url, array( 'timeout' => 20, 'sslverify' => false ) );
+					$response = wp_remote_get( $url, array(
+						'timeout' => 20,
+						'sslverify' => false
+					) );
 
 					// Get license key
 					$license_key = wc_slm_get_license_key( $response );
@@ -134,20 +135,19 @@ function wc_slm_create_license_keys( $order_id ) {
 						$licenses[] = array(
 							'item' => $item_name,
 							'key' => $license_key,
-							'expires' => $renewal_period,
+							'expires' => $renewal_period
 						);
 					}
 				}
 			}
 
-		}
-		else {
+		} else {
 			wc_slm_log_msg( __( 'Licensing is not enabled for Product ID ', 'wc-slm' ) . $product_id );
 		}
 	}
 
 	// Payment note
-	wc_slm_payment_note($order_id, $licenses);
+	wc_slm_payment_note( $order_id, $licenses );
 
 	// Assign licenses
 	wc_slm_assign_licenses( $order_id, $licenses );
@@ -213,11 +213,10 @@ function wc_slm_payment_note( $order_id, $licenses ) {
  */
 function wc_slm_assign_licenses( $order_id, $licenses ) {
 
-	if ( count( $licenses ) != 0) {
+	if ( count( $licenses ) != 0 ) {
 		wc_slm_log_msg( __( 'License Key assigned to Order ', 'wc-slm' ) . $order_id );
 		update_post_meta( $order_id, '_wc_slm_payment_licenses', $licenses );
-	}
-	else {
+	} else {
 		wc_slm_log_msg( __( 'License Key does not exist so cannot assign to order', 'wc-slm' ) );
 	}
 }
@@ -307,16 +306,28 @@ function wc_slm_lic_order_meta( $order ) {
 	if ( $licenses && count( $licenses ) != 0 ) {
 
 		wc_slm_log_msg( __( 'Customer ID ', 'wc-slm' ) . $order->get_customer_id() . __( ' is viewing License Keys for Order ID ', 'wc-slm' ) . $order->get_id() );
-		$output .= '<h3>' . __('Your Licenses', 'wc-slm') . ':</h3>';
+		$output .= '<h3>' . __( 'Your Licenses', 'wc-slm' ) . ':</h3>';
 		$output .= '<table class="shop_table shop_table_responsive">';
-		$output .= '<tr><th class="td">' . __('Item', 'wc-slm') . '</th>';
-		$output .= '<th class="td">' . __('License', 'wc-slm') . '</th></tr>';
+		$output .= '<tr><th class="td">' . __( 'Item', 'wc-slm' ) . '</th>';
+		$output .= '<th class="td">' . __( 'License', 'wc-slm' ) . '</th></tr>';
 
 		foreach ( $licenses as $license ) {
 			$output .= '<tr>';
 			if ( isset( $license['item'] ) && isset( $license['key'] ) ) {
-				$output .= '<td class="td">' . $license['item'] . '</td>';
-				$output .= '<td class="td">' . $license['key'] . '</td>';
+				$output .= '<td class="td"><strong>' . $license['item'] . '</strong>';
+				// If the verification secret key has been set, get the list of registered domains for this License Key
+				if ( defined( 'WC_SLM_API_SECRET_VERFIY' ) ) {
+					$registered_domains = wc_slm_check_license( $license['key'] );
+					$registered_domains = explode( ',', $registered_domains );
+					if( !empty( $registered_domains ) && $registered_domains != false ) {
+						$output .= '</br>Registered Domains:';
+						foreach ( $registered_domains as $domain ) {
+							$output .= '</br>&nbsp;&nbsp;' . $domain;
+						}
+					}
+				}
+				$output .= '</td>';
+				$output .= '<td class="td" style="vertical-align:top;">' . $license['key'] . '</td>';
 			} else {
 				$output .= '<td class="td">' . __( 'No Item assigned', 'wc-slm' ) . '</td>';
 				$output .= '<td class="td">' . __( 'No License Key assigned', 'wc-slm' ) . '</td>';
@@ -331,3 +342,55 @@ function wc_slm_lic_order_meta( $order ) {
 	}
 }
 add_action( 'woocommerce_order_details_after_order_table', 'wc_slm_lic_order_meta', 10, 1 );
+
+/**
+ * Check the license is valid and get the list of currently registered/activated domains
+ *
+ * @since 2.0.0
+ */
+function wc_slm_check_license( $license ) {
+	$return_val = false;
+
+	$api_params = array(
+		'secret_key' => WC_SLM_API_SECRET_VERFIY,
+		'slm_action' => 'slm_check',
+		'license_key' => $license
+		);
+
+	wc_slm_log_msg( __( 'Verifying License Key and Retrieving Registered Domains', 'wc-slm' ) );
+	// Call the Software License Manager API.
+	$response = wp_remote_get(
+		add_query_arg( $api_params, trailingslashit( WC_SLM_API_URL ) ),
+		array(
+			'timeout' => 15,
+			'sslverify' => false
+		)
+	);
+
+	// Make sure the response returned ok before continuing any further
+	if ( is_wp_error( $response ) ) {
+		wc_slm_log_msg( __( 'Error! Invalid response when verifying License Key', 'wc-slm' ) );
+		return false;
+	}
+
+	if ( is_array( $response ) ) {
+		$json = $response['body'];
+		$json = preg_replace( '/[\x00-\x1F\x80-\xFF]/', '', utf8_encode($json) );
+		$license_data = json_decode( $json );
+	}
+
+	if ( $license_data->result == 'success' ) {
+		wc_slm_log_msg( __( 'License Key verified. Retrieving registered domains', 'wc-slm' ) );
+		$registered_domains = array();
+		foreach ( $license_data->registered_domains as $domain ) {
+			$registered_domains[] = $domain->registered_domain;
+		}
+		$return_val = implode( ',', $registered_domains );
+	}
+	else {
+		wc_slm_log_msg( __( 'Error! Unable to verify License Key', 'wc-slm' ) );
+		$return_val = false;
+	}
+
+	return $return_val;
+}
