@@ -25,7 +25,7 @@ function wc_slm_email_content($order, $is_admin_email) {
 		if ( $licenses && count( $licenses ) != 0 ) {
 			wc_slm_log_msg( __( 'License Key(s) found. Generating output for email content', 'wc-slm' ) );
 			$output .= '<h3>' . __( 'Your Licenses', 'wc-slm' ) . ':</h3>';
-			$output .= '<table>';
+			$output .= '<table class="td" style="width: 100%; margin-bottom: 40px; color: #737373; border: 1px solid #e4e4e4;" cellspacing="0" cellpadding="6" border="1">';
 			$output .= '<tr><th class="td">' . __( 'Item', 'wc-slm' ) . '</th>';
 			$output .= '<th class="td">' . __( 'License', 'wc-slm' ) . '</th>';
 			$output .= '<th class="td">' . __( 'Expire Date', 'wc-slm' ) . '</th></tr>';
@@ -54,4 +54,4 @@ function wc_slm_email_content($order, $is_admin_email) {
 		echo $output;
 	}
 }
-add_action( 'woocommerce_email_before_order_table', 'wc_slm_email_content', 10, 2 );
+add_action( 'woocommerce_email_after_order_table', 'wc_slm_email_content', 10, 2 );
