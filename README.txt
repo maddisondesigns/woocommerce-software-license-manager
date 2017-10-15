@@ -3,7 +3,7 @@ Contributors: ahortin, goback2
 Tags: wc, wc license, wc software license, software license, software license manager, woocommerce, wc licensing
 Requires at least: 3.5.1
 Tested up to: 4.8.2
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,6 +86,10 @@ No! The license validation part for your distributed plugins and themes is not p
 3. Output the generated license keys within your emails
 
 == Changelog ==
+
+= 2.0.1 =
+- Updated License table styles so it matches the Order table.
+- Updated hook to insert License details after Order details rather than before
 
 = 2.0.0 =
 - Updated plugin to work with WordPress 4.8.2 and WooCommerce 3.2

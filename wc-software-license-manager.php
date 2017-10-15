@@ -3,7 +3,7 @@
  * Plugin Name:     			WC Software License Manager
  * Plugin URI:      			https://maddisondesigns.com
  * Description:     			Seamless integration between Woocommerce and Software License Manager
- * Version:         			2.0.0
+ * Version:         			2.0.1
  * Author:          			Anthony Hortin
  * Author URI:      			https://maddisondesigns.com
  * Text Domain:     			wc-slm
