@@ -1,30 +1,38 @@
 <?php
 /**
- * Plugin Name:     WC Software License Manager
- * Plugin URI:      http://wp-master.ir
- * Description:     Seamless integration between Woocommerce and Software License Manager
- * Version:         2.0.0
- * Author:          Omid Shamlu
- * Author URI:      http://wp-master.ir
- * Text Domain:     wc-slm
- * Domain Path:     /languages
+ * Plugin Name:     			WC Software License Manager
+ * Plugin URI:      			https://maddisondesigns.com
+ * Description:     			Seamless integration between Woocommerce and Software License Manager
+ * Version:         			2.0.0
+ * Author:          			Anthony Hortin
+ * Author URI:      			https://maddisondesigns.com
+ * Text Domain:     			wc-slm
+ * Domain Path:     			/languages
+ * WC requires at least:	2.5.0
+ * WC tested up to: 			3.2.0
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
- * General Public License version 3, as published by the Free Software Foundation. You may NOT assume
+ * General Public License version 2, as published by the Free Software Foundation. You may NOT assume
  * that you can use any other version of the GPL.
  *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * @author          Omid <wp@wp-master.ir>
- * @copyright       Copyright (c) Omid
- * @license         http://www.gnu.org/licenses/gpl-3.0.html
+ * Copyright 2015-2017 Omid Shamlu - http://wp-master.ir
+ * Copyright 2017-2018 Anthony Hortin - https://maddisondesigns.com
  *
- * TODO:
- * https://wordpress.org/support/topic/modifying-for-variable-products
- * Add option to recreate manual linense in order edit page
- * Add license columns in order table lists
+ * The following code is a derivative work of the code from the WooCommerce Software License Manager,
+ * which is licensed GPLv2. This code therefore is also licensed under the terms of the GNU Public License, verison 2.
+ *
+ * @author		Anthony Hortin - https://maddisondesigns.com
+ * @copyright	Copyright Anthony Hortin
+ * @license		https://www.gnu.org/licenses/gpl-2.0.html
  */
+
+// TODO:
+// https://wordpress.org/support/topic/modifying-for-variable-products
+// Add option to recreate manual linense in order edit page
+// Add license columns in order table lists
 
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) {
@@ -75,10 +83,24 @@ if ( !class_exists( 'WC_SLM' ) ) {
 			define( 'WC_SLM_URL', plugin_dir_url(__FILE__) );
 
 			// SLM Credentials
-			$api_url = str_replace( array( 'http://' ), array( 'https://' ), rtrim( get_option( 'wc_slm_api_url' ), '/' ) );
+			$api_url = trim( get_option( 'wc_slm_api_url', '' ) );
+			$api_url = rtrim( $api_url, '/' );
+			if( ( strpos( $api_url, 'http://' ) === false ) && ( strpos( $api_url, 'https://' ) === false ) ) {
+				$api_url = 'http://' . $api_url;
+			}
 
+			// Software License Manager API URL
 			define( 'WC_SLM_API_URL', $api_url );
+
+			// Secret Key for Creation
 			define( 'WC_SLM_API_SECRET', get_option( 'wc_slm_api_secret' ) );
+
+			// Secret Key for Verification
+			if ( '' != get_option( 'wc_slm_api_secret_verify', '' ) ) {
+				define( 'WC_SLM_API_SECRET_VERFIY', get_option( 'wc_slm_api_secret_verify' ) );
+			}
+
+			// Enable Debug Logging
 			if ( 'yes' === get_option( 'wc_slm_debug_logging', false ) ) {
 				define( 'WC_SLM_DEBUG_LOGGING', true );
 			}
