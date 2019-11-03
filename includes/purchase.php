@@ -36,7 +36,7 @@ function wc_slm_create_license_keys( $order_id ) {
 	// Get Order details
 	$_order = wc_get_order( $order_id );
 
-	// Get User ID from order
+/*	// Get User ID from order
 	$user_id = $_order->get_user_id();
 
 	// Get User details
@@ -47,7 +47,13 @@ function wc_slm_create_license_keys( $order_id ) {
 	$payment_meta['user_info']['first_name'] = $get_user_meta['billing_first_name'][0];
 	$payment_meta['user_info']['last_name'] = $get_user_meta['billing_last_name'][0];
 	$payment_meta['user_info']['email'] = $get_user_meta['billing_email'][0];
-	$payment_meta['user_info']['company'] = $get_user_meta['billing_company'][0];
+	$payment_meta['user_info']['company'] = $get_user_meta['billing_company'][0];*/
+
+    // Get User Meta    
+    $payment_meta['user_info']['first_name'] = $_order->get_billing_first_name();
+    $payment_meta['user_info']['last_name'] = $_order->get_billing_last_name();
+    $payment_meta['user_info']['email'] = $_order->get_billing_email();
+    $payment_meta['user_info']['company'] = $_order->get_billing_company();
 
 	// Collect license keys
 	$licenses = array();
